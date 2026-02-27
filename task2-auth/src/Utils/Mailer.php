@@ -41,6 +41,32 @@ final class Mailer
         }
     }
 
+    /**
+     * 发送找回密码重置链接邮件。
+     *
+     * @param string $email    收件人邮箱
+     * @param string $resetUrl 重置密码完整 URL（含 token）
+     * @return bool 是否发送成功
+     */
+    public static function sendPasswordResetLink(string $email, string $resetUrl): bool
+    {
+        self::ensureEnvLoaded();
+        $mail = new PHPMailer(true);
+        try {
+            self::configureSmtp($mail);
+            $mail->setFrom(self::env('SMTP_FROM', ''), self::env('SMTP_FROM_NAME', 'CTLP'));
+            $mail->addAddress($email);
+            $mail->Subject = '重置密码 - CTLP';
+            $mail->CharSet = PHPMailer::CHARSET_UTF8;
+            $mail->Body    = "请点击以下链接重置您的密码（链接有效期为 1 小时）：\n\n" . $resetUrl . "\n\n如非本人操作请忽略。";
+            $mail->AltBody = "请点击以下链接重置您的密码（链接有效期为 1 小时）：\n\n" . $resetUrl . "\n\n如非本人操作请忽略。";
+            $mail->send();
+            return true;
+        } catch (PHPMailerException $e) {
+            return false;
+        }
+    }
+
     private static function ensureEnvLoaded(): void
     {
         if (self::$projectRoot !== null) {

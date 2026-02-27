@@ -127,9 +127,87 @@ final class UserAuth
         return [true, ''];
     }
 
+    // ---------- 找回密码 ----------
+
+    private const RESET_VALID_SECONDS = 3600; // 1 小时
+
     /**
-     * 是否已处于“已发验证码”状态（用于前端显示验证码输入框）。
+     * 请求重置密码：根据邮箱生成 64 位 Token 与过期时间写入 DB，并发送重置链接邮件。
+     *
+     * @param string $email   用户邮箱
+     * @param string $baseUrl 当前站点 public 目录的完整 URL（不含末尾斜杠），用于拼重置链接
+     * @return array{0: bool, 1: string} [是否成功, 提示信息]
      */
+    public static function requestPasswordReset(string $email, string $baseUrl): array
+    {
+        $email = Validator::cleanString($email);
+        if (!Validator::isValidEmail($email)) {
+            return [false, '邮箱格式不正确'];
+        }
+
+        $pdo = Connection::get();
+        $stmt = $pdo->prepare('SELECT id FROM users WHERE email = ? LIMIT 1');
+        $stmt->execute([$email]);
+        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+        if (!$row) {
+            return [false, '该邮箱未注册'];
+        }
+
+        $token = bin2hex(random_bytes(32)); // 64 位
+        $expires = date('Y-m-d H:i:s', time() + self::RESET_VALID_SECONDS);
+        $stmt = $pdo->prepare('UPDATE users SET reset_token = ?, reset_expires = ? WHERE id = ?');
+        $stmt->execute([$token, $expires, $row['id']]);
+
+        $resetUrl = rtrim($baseUrl, '/') . '/reset-password.php?token=' . urlencode($token);
+        if (!Mailer::sendPasswordResetLink($email, $resetUrl)) {
+            return [false, '邮件发送失败，请稍后重试'];
+        }
+
+        return [true, '重置链接已发送到您的邮箱，请查收'];
+    }
+
+    /**
+     * 校验重置 Token 是否合法且未过期，返回对应用户 id，否则返回 null。
+     *
+     * @return int|null 用户 id 或 null
+     */
+    public static function validateResetToken(string $token): ?int
+    {
+        $token = trim($token);
+        if ($token === '') {
+            return null;
+        }
+        $pdo = Connection::get();
+        $stmt = $pdo->prepare('SELECT id FROM users WHERE reset_token = ? AND reset_expires > NOW() LIMIT 1');
+        $stmt->execute([$token]);
+        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $row ? (int) $row['id'] : null;
+    }
+
+    /**
+     * 使用 Token 设置新密码并销毁 Token。
+     *
+     * @param string $token        URL 中的 token
+     * @param string $newPassword  新密码
+     * @return array{0: bool, 1: string} [是否成功, 提示信息]
+     */
+    public static function resetPassword(string $token, string $newPassword): array
+    {
+        $userId = self::validateResetToken($token);
+        if ($userId === null) {
+            return [false, '链接无效或已过期，请重新申请找回密码'];
+        }
+        if (!Validator::isStrongPassword($newPassword)) {
+            return [false, '密码至少 8 位且需同时包含字母和数字'];
+        }
+
+        $hash = password_hash($newPassword, PASSWORD_DEFAULT);
+        $pdo = Connection::get();
+        $stmt = $pdo->prepare('UPDATE users SET password = ?, reset_token = NULL, reset_expires = NULL WHERE id = ?');
+        $stmt->execute([$hash, $userId]);
+
+        return [true, ''];
+    }
     public static function hasPendingVerification(): bool
     {
         if (session_status() === PHP_SESSION_NONE) {
