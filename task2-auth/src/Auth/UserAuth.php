@@ -20,6 +20,35 @@ final class UserAuth
     private const CODE_VALID_SECONDS = 300; // 5 分钟
 
     /**
+     * 登录：校验邮箱与密码，成功则写入会话。
+     *
+     * @param string $email
+     * @param string $password
+     * @return array{0: bool, 1: string} [是否成功, 提示信息]
+     */
+    public static function attemptLogin(string $email, string $password): array
+    {
+        $email = Validator::cleanString($email);
+        if (!Validator::isValidEmail($email)) {
+            return [false, '邮箱格式不正确'];
+        }
+
+        $pdo = Connection::get();
+        $stmt = $pdo->prepare('SELECT id, password FROM users WHERE email = ? LIMIT 1');
+        $stmt->execute([$email]);
+        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+        if (!$row) {
+            return [false, '邮箱或密码错误'];
+        }
+        if (!password_verify($password, $row['password'])) {
+            return [false, '邮箱或密码错误'];
+        }
+
+        SessionManager::login((int) $row['id']);
+        return [true, ''];
+    }
+
+    /**
      * 请求发送验证码：校验邮箱与密码、唯一性，生成 4 位验证码写入 Session 并发送邮件。
      *
      * @param string $email
