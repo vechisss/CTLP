@@ -16,8 +16,8 @@ CREATE TABLE `users` (
   `reset_expires` datetime DEFAULT NULL COMMENT '令牌过期时间',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_email` (`email`),
-  KEY `idx_reset_token` (`reset_token`),
+  UNIQUE KEY `uk_email` (`email`(191)), -- 只对前191个字符建立唯一索引
+  KEY `idx_reset_token` (`reset_token`(191)), -- 只对前191个字符建立索引
   KEY `idx_reset_expires` (`reset_expires`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户表';
 
