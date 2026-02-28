@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-require_once dirname(__DIR__) . '/vendor/autoload.php';
+require_once __DIR__ . '/bootstrap.php';
 
 use Vechisss\Ctlp\Auth\UserAuth;
-
-session_start();
+use Vechisss\Ctlp\Utils\Csrf;
 
 $token = trim($_GET['token'] ?? '');
 $valid = $token !== '' && UserAuth::validateResetToken($token) !== null;
@@ -15,25 +14,31 @@ $message = '';
 $isError = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $token = trim($_POST['token'] ?? '');
-    $password = $_POST['password'] ?? '';
-    $password2 = $_POST['password2'] ?? '';
-
-    if ($password !== $password2) {
-        $message = '两次输入的密码不一致';
+    if (!Csrf::validate($_POST['csrf_token'] ?? '')) {
+        $message = '请求无效，请重新提交';
         $isError = true;
+        $valid = $token !== '' && UserAuth::validateResetToken($token) !== null;
     } else {
-        [$ok, $msg] = UserAuth::resetPassword($token, $password);
-        if ($ok) {
-            $_SESSION['flash_message'] = '密码已重置，请使用新密码登录';
-            $_SESSION['flash_success'] = true;
-            header('Location: login.php');
-            exit;
+        $token = trim($_POST['token'] ?? '');
+        $password = $_POST['password'] ?? '';
+        $password2 = $_POST['password2'] ?? '';
+
+        if ($password !== $password2) {
+            $message = '两次输入的密码不一致';
+            $isError = true;
+        } else {
+            [$ok, $msg] = UserAuth::resetPassword($token, $password);
+            if ($ok) {
+                $_SESSION['flash_message'] = '密码已重置，请使用新密码登录';
+                $_SESSION['flash_success'] = true;
+                header('Location: login.php');
+                exit;
+            }
+            $message = $msg;
+            $isError = true;
         }
-        $message = $msg;
-        $isError = true;
+        $valid = UserAuth::validateResetToken($token) !== null;
     }
-    $valid = UserAuth::validateResetToken($token) !== null;
 }
 
 if (!$valid && $_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -61,6 +66,7 @@ if (!$valid && $_SERVER['REQUEST_METHOD'] !== 'POST') {
 
         <?php if ($valid): ?>
             <form method="post" action="reset-password.php">
+                <?= Csrf::field() ?>
                 <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
                 <div class="form-group">
                     <label for="password">新密码</label>

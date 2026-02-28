@@ -2,18 +2,22 @@
 
 declare(strict_types=1);
 
-require_once dirname(__DIR__) . '/vendor/autoload.php';
+require_once __DIR__ . '/bootstrap.php';
 
 use Vechisss\Ctlp\Auth\UserAuth;
-
-session_start();
+use Vechisss\Ctlp\Utils\Csrf;
 
 $message = '';
 $isError = false;
 $step = UserAuth::hasPendingVerification() ? 'verify' : 'form';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $action = $_POST['action'] ?? '';
+    if (!Csrf::validate($_POST['csrf_token'] ?? '')) {
+        $message = '请求无效，请重新提交';
+        $isError = true;
+        $step = isset($_POST['action']) && $_POST['action'] === 'register' ? 'verify' : 'form';
+    } else {
+        $action = $_POST['action'] ?? '';
 
     if ($action === 'send_code') {
         $email = $_POST['email'] ?? '';
@@ -38,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message = $msg;
         $isError = true;
         $step = 'verify';
+    }
     }
 }
 
@@ -68,6 +73,7 @@ $showCodeStep = $step === 'verify';
         <?php endif; ?>
 
         <form method="post" action="register.php">
+            <?= Csrf::field() ?>
             <?php if (!$showCodeStep): ?>
                 <div class="form-group">
                     <label for="email">邮箱</label>
