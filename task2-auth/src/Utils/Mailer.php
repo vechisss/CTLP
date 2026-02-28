@@ -9,14 +9,18 @@ use PHPMailer\PHPMailer\Exception as PHPMailerException;
 
 /**
  * 邮件发送封装，基于 PHPMailer，SMTP 配置从 .env 读取。
+ * 支持 HTML 格式邮件，简约风格。
  */
 final class Mailer
 {
     /** 项目根目录（task2-auth） */
     private static ?string $projectRoot = null;
 
+    /** 邮件模板目录（相对项目根） */
+    private const TEMPLATES_EMAIL = 'templates' . DIRECTORY_SEPARATOR . 'email';
+
     /**
-     * 发送验证码邮件。
+     * 发送验证码邮件（HTML + 纯文本备用）。
      *
      * @param string $email 收件人邮箱
      * @param string $code  验证码
@@ -32,7 +36,10 @@ final class Mailer
             $mail->addAddress($email);
             $mail->Subject = '您的验证码 - CTLP';
             $mail->CharSet = PHPMailer::CHARSET_UTF8;
-            $mail->Body    = "您的验证码为：{$code}，请勿泄露。如非本人操作请忽略。";
+            $mail->isHTML(true);
+
+            $content = self::loadEmailTemplate('verification_code.html', ['code' => htmlspecialchars($code)]);
+            $mail->Body = self::loadEmailLayout($content);
             $mail->AltBody = "您的验证码为：{$code}，请勿泄露。如非本人操作请忽略。";
             $mail->send();
             return true;
@@ -42,7 +49,7 @@ final class Mailer
     }
 
     /**
-     * 发送找回密码重置链接邮件。
+     * 发送找回密码重置链接邮件（HTML + 纯文本备用）。
      *
      * @param string $email    收件人邮箱
      * @param string $resetUrl 重置密码完整 URL（含 token）
@@ -58,13 +65,42 @@ final class Mailer
             $mail->addAddress($email);
             $mail->Subject = '重置密码 - CTLP';
             $mail->CharSet = PHPMailer::CHARSET_UTF8;
-            $mail->Body    = "请点击以下链接重置您的密码（链接有效期为 1 小时）：\n\n" . $resetUrl . "\n\n如非本人操作请忽略。";
+            $mail->isHTML(true);
+
+            $escUrl = htmlspecialchars($resetUrl);
+            $content = self::loadEmailTemplate('password_reset.html', ['resetUrl' => $escUrl]);
+            $mail->Body = self::loadEmailLayout($content);
             $mail->AltBody = "请点击以下链接重置您的密码（链接有效期为 1 小时）：\n\n" . $resetUrl . "\n\n如非本人操作请忽略。";
             $mail->send();
             return true;
         } catch (PHPMailerException $e) {
             return false;
         }
+    }
+
+    /** 加载邮件布局并填入内容 */
+    private static function loadEmailLayout(string $content): string
+    {
+        $path = self::getTemplatesEmailPath() . DIRECTORY_SEPARATOR . 'layout.html';
+        $html = is_file($path) ? file_get_contents($path) : '';
+        return str_replace('{{content}}', $content, $html);
+    }
+
+    /** 加载邮件内容模板并替换占位符 */
+    private static function loadEmailTemplate(string $name, array $vars): string
+    {
+        $path = self::getTemplatesEmailPath() . DIRECTORY_SEPARATOR . $name;
+        $html = is_file($path) ? file_get_contents($path) : '';
+        foreach ($vars as $key => $value) {
+            $html = str_replace('{{' . $key . '}}', $value, $html);
+        }
+        return $html;
+    }
+
+    private static function getTemplatesEmailPath(): string
+    {
+        self::ensureEnvLoaded();
+        return self::$projectRoot . DIRECTORY_SEPARATOR . self::TEMPLATES_EMAIL;
     }
 
     private static function ensureEnvLoaded(): void

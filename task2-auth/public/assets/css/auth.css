@@ -1,0 +1,190 @@
+/* 登录、注册、找回/重置密码、欢迎页 统一简洁风格 */
+* { box-sizing: border-box; }
+
+.auth-page {
+    margin: 0;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #1a1a1a;
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 400px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 32px 28px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.auth-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    color: #1a1a1a;
+}
+
+.auth-desc {
+    margin: 0 0 24px 0;
+    color: #555;
+    font-size: 14px;
+}
+
+.auth-card .msg {
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.auth-card .msg.error {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+.auth-card .msg.success {
+    background: #f0fdf4;
+    color: #166534;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #374151;
+    font-size: 14px;
+}
+
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: border-color 0.15s;
+}
+
+/* 密码框 + 显示/隐藏按钮 */
+.password-wrap {
+    position: relative;
+}
+.password-wrap input {
+    padding-right: 52px;
+}
+.pwd-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 4px 6px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #6b7280;
+    line-height: 1;
+}
+.pwd-toggle:hover {
+    color: #374151;
+}
+.pwd-toggle:focus {
+    outline: none;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.form-group input::placeholder {
+    color: #9ca3af;
+}
+
+.auth-card .row {
+    margin-top: 16px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    transition: background-color 0.15s, color 0.15s;
+}
+
+.btn-primary {
+    background: #2563eb;
+    color: #fff;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+}
+
+.btn-secondary {
+    background: #f3f4f6;
+    color: #374151;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.btn-secondary:hover {
+    background: #e5e7eb;
+}
+
+.auth-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.auth-actions .btn {
+    width: 100%;
+}
+
+.auth-footer {
+    margin-top: 24px;
+    font-size: 13px;
+    color: #9ca3af;
+    text-align: center;
+}
+
+.auth-links {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.auth-links a {
+    color: #2563eb;
+    text-decoration: none;
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
+}
+
+.auth-links span {
+    color: #d1d5db;
+    margin: 0 8px;
+}

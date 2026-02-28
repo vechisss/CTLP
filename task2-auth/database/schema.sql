@@ -14,6 +14,7 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL COMMENT '密码哈希 (bcrypt/argon2)',
   `reset_token` varchar(255) DEFAULT NULL COMMENT '找回密码令牌',
   `reset_expires` datetime DEFAULT NULL COMMENT '令牌过期时间',
+  `reset_sent_at` datetime DEFAULT NULL COMMENT '上次发送重置邮件时间（用于限频）',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_email` (`email`(191)), -- 只对前191个字符建立唯一索引

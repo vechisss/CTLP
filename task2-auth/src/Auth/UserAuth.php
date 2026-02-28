@@ -17,7 +17,10 @@ final class UserAuth
     private const SESSION_PASSWORD_HASH = 'register_password_hash';
     private const SESSION_CODE = 'register_code';
     private const SESSION_EXPIRES = 'register_expires';
+    /** 验证码发送冷却（秒），同一会话/邮箱 60 秒内只能发一次 */
+    private const SESSION_CODE_SENT_AT = 'register_code_sent_at';
     private const CODE_VALID_SECONDS = 300; // 5 分钟
+    private const CODE_COOLDOWN_SECONDS = 60; // 1 分钟
 
     /**
      * 登录：校验邮箱与密码，成功则写入会话。
@@ -74,6 +77,16 @@ final class UserAuth
             return [false, '该邮箱已注册'];
         }
 
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        // 限频：同一会话 1 分钟内只能发一次验证码
+        $lastSent = $_SESSION[self::SESSION_CODE_SENT_AT] ?? 0;
+        if ($lastSent > 0 && (time() - $lastSent) < self::CODE_COOLDOWN_SECONDS) {
+            $wait = self::CODE_COOLDOWN_SECONDS - (time() - $lastSent);
+            return [false, '发送过于频繁，请 ' . $wait . ' 秒后再试'];
+        }
+
         $code = (string) random_int(1000, 9999);
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -82,6 +95,7 @@ final class UserAuth
         $_SESSION[self::SESSION_PASSWORD_HASH] = password_hash($password, PASSWORD_DEFAULT);
         $_SESSION[self::SESSION_CODE] = $code;
         $_SESSION[self::SESSION_EXPIRES] = time() + self::CODE_VALID_SECONDS;
+        $_SESSION[self::SESSION_CODE_SENT_AT] = time();
 
         if (!Mailer::sendVerificationCode($email, $code)) {
             return [false, '验证码发送失败，请稍后重试'];
@@ -130,9 +144,12 @@ final class UserAuth
     // ---------- 找回密码 ----------
 
     private const RESET_VALID_SECONDS = 3600; // 1 小时
+    /** 同一邮箱两次发送重置邮件的间隔（秒），防刷 */
+    private const RESET_COOLDOWN_SECONDS = 300; // 5 分钟
 
     /**
      * 请求重置密码：根据邮箱生成 64 位 Token 与过期时间写入 DB，并发送重置链接邮件。
+     * 未注册邮箱也返回成功文案，不暴露用户是否存在；同一邮箱 5 分钟内仅允许发送一次。
      *
      * @param string $email   用户邮箱
      * @param string $baseUrl 当前站点 public 目录的完整 URL（不含末尾斜杠），用于拼重置链接
@@ -146,24 +163,35 @@ final class UserAuth
         }
 
         $pdo = Connection::get();
-        $stmt = $pdo->prepare('SELECT id FROM users WHERE email = ? LIMIT 1');
+        $stmt = $pdo->prepare('SELECT id, reset_sent_at FROM users WHERE email = ? LIMIT 1');
         $stmt->execute([$email]);
         $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        // 不暴露用户是否存在：未注册也返回统一成功文案，不发邮件
         if (!$row) {
-            return [false, '该邮箱未注册'];
+            return [true, '若该邮箱已注册，我们将发送重置链接到您的邮箱，请查收。'];
+        }
+
+        // 限频：同一邮箱在冷却期内不允许重复发送
+        $lastSent = $row['reset_sent_at'] ?? null;
+        if ($lastSent !== null) {
+            $elapsed = time() - strtotime($lastSent);
+            if ($elapsed < self::RESET_COOLDOWN_SECONDS) {
+                $wait = self::RESET_COOLDOWN_SECONDS - $elapsed;
+                return [false, '发送过于频繁，请 ' . (int) ceil($wait / 60) . ' 分钟后再试'];
+            }
         }
 
         $token = bin2hex(random_bytes(32)); // 64 位
-        $expires = date('Y-m-d H:i:s', time() + self::RESET_VALID_SECONDS);
-        $stmt = $pdo->prepare('UPDATE users SET reset_token = ?, reset_expires = ? WHERE id = ?');
-        $stmt->execute([$token, $expires, $row['id']]);
+        $stmt = $pdo->prepare('UPDATE users SET reset_token = ?, reset_expires = DATE_ADD(NOW(), INTERVAL ? SECOND), reset_sent_at = NOW() WHERE id = ?');
+        $stmt->execute([$token, self::RESET_VALID_SECONDS, $row['id']]);
 
         $resetUrl = rtrim($baseUrl, '/') . '/reset-password.php?token=' . urlencode($token);
         if (!Mailer::sendPasswordResetLink($email, $resetUrl)) {
             return [false, '邮件发送失败，请稍后重试'];
         }
 
-        return [true, '重置链接已发送到您的邮箱，请查收'];
+        return [true, '若该邮箱已注册，我们将发送重置链接到您的邮箱，请查收。'];
     }
 
     /**
@@ -224,7 +252,8 @@ final class UserAuth
             $_SESSION[self::SESSION_EMAIL],
             $_SESSION[self::SESSION_PASSWORD_HASH],
             $_SESSION[self::SESSION_CODE],
-            $_SESSION[self::SESSION_EXPIRES]
+            $_SESSION[self::SESSION_EXPIRES],
+            $_SESSION[self::SESSION_CODE_SENT_AT]
         );
     }
 }
