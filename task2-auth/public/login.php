@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-require_once dirname(__DIR__) . '/vendor/autoload.php';
+require_once __DIR__ . '/bootstrap.php';
 
 use Vechisss\Ctlp\Auth\SessionManager;
 use Vechisss\Ctlp\Auth\UserAuth;
-
-session_start();
+use Vechisss\Ctlp\Utils\Csrf;
 
 // 已登录则直接去首页（欢迎页）
 if (SessionManager::isLoggedIn()) {
@@ -20,17 +19,22 @@ $isSuccess = !empty($_SESSION['flash_success']);
 unset($_SESSION['flash_message'], $_SESSION['flash_success']);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'] ?? '';
-    $password = $_POST['password'] ?? '';
-    [$ok, $msg] = UserAuth::attemptLogin($email, $password);
-    if ($ok) {
-        $redirect = $_SESSION['redirect_after_login'] ?? 'index.php';
-        unset($_SESSION['redirect_after_login']);
-        header('Location: ' . $redirect);
-        exit;
+    if (!Csrf::validate($_POST['csrf_token'] ?? '')) {
+        $message = '请求无效，请重新提交';
+        $isSuccess = false;
+    } else {
+        $email = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
+        [$ok, $msg] = UserAuth::attemptLogin($email, $password);
+        if ($ok) {
+            $redirect = $_SESSION['redirect_after_login'] ?? 'index.php';
+            unset($_SESSION['redirect_after_login']);
+            header('Location: ' . $redirect);
+            exit;
+        }
+        $message = $msg;
+        $isSuccess = false;
     }
-    $message = $msg;
-    $isSuccess = false;
 }
 ?>
 <!DOCTYPE html>
@@ -52,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form method="post" action="login.php">
+            <?= Csrf::field() ?>
             <div class="form-group">
                 <label for="email">邮箱</label>
                 <input id="email" type="email" name="email" required

@@ -2,25 +2,29 @@
 
 declare(strict_types=1);
 
-require_once dirname(__DIR__) . '/vendor/autoload.php';
+require_once __DIR__ . '/bootstrap.php';
 
 use Vechisss\Ctlp\Auth\UserAuth;
-
-session_start();
+use Vechisss\Ctlp\Utils\Csrf;
 
 $message = '';
 $isError = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'] ?? '';
-    $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-    $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-    $path = dirname($_SERVER['REQUEST_URI'] ?? '/');
-    $baseUrl = $scheme . '://' . $host . $path;
+    if (!Csrf::validate($_POST['csrf_token'] ?? '')) {
+        $message = '请求无效，请重新提交';
+        $isError = true;
+    } else {
+        $email = $_POST['email'] ?? '';
+        $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+        $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+        $path = dirname($_SERVER['REQUEST_URI'] ?? '/');
+        $baseUrl = $scheme . '://' . $host . $path;
 
-    [$ok, $msg] = UserAuth::requestPasswordReset($email, $baseUrl);
-    $message = $msg;
-    $isError = !$ok;
+        [$ok, $msg] = UserAuth::requestPasswordReset($email, $baseUrl);
+        $message = $msg;
+        $isError = !$ok;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -42,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form method="post" action="forgot-password.php">
+            <?= Csrf::field() ?>
             <div class="form-group">
                 <label for="email">邮箱</label>
                 <input id="email" type="email" name="email" required

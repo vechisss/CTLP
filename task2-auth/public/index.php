@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-require_once dirname(__DIR__) . '/vendor/autoload.php';
+require_once __DIR__ . '/bootstrap.php';
 
 use Vechisss\Ctlp\Auth\SessionManager;
-
-session_start();
 
 // 未登录则重定向到登录页
 SessionManager::requireLogin('login.php');
