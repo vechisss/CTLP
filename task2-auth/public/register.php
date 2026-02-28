@@ -53,54 +53,56 @@ $showCodeStep = $step === 'verify';
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>注册 - CTLP</title>
-    <style>
-        * { box-sizing: border-box; }
-        body { font-family: sans-serif; max-width: 360px; margin: 2rem auto; padding: 0 1rem; }
-        h1 { font-size: 1.25rem; margin-bottom: 1rem; }
-        .msg { padding: 0.5rem; margin-bottom: 1rem; border-radius: 4px; }
-        .msg.error { background: #fdd; color: #c00; }
-        .msg.success { background: #dfd; color: #060; }
-        label { display: block; margin-top: 0.75rem; margin-bottom: 0.25rem; }
-        input[type="email"], input[type="password"], input[type="text"] {
-            width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;
-        }
-        button { margin-top: 1rem; padding: 0.5rem 1rem; cursor: pointer; border-radius: 4px; border: 1px solid #666; }
-        button.primary { background: #07c; color: #fff; border-color: #07c; }
-        .row { margin-top: 0.5rem; }
-        a { color: #07c; }
-    </style>
+    <link rel="icon" href="assets/images/icon.png" type="image/png">
+    <link rel="stylesheet" href="assets/css/auth.css">
 </head>
-<body>
-    <h1>注册</h1>
+<body class="auth-page">
+    <div class="auth-card">
+        <h1 class="auth-title">注册</h1>
+        <p class="auth-desc"><?= $showCodeStep ? '请输入邮箱中收到的验证码。' : '填写邮箱与密码，我们将发送验证码到您的邮箱。' ?></p>
 
-    <?php if ($message !== ''): ?>
-        <p class="msg <?= $isError ? 'error' : 'success' ?>"><?= htmlspecialchars($message) ?></p>
-    <?php endif; ?>
-
-    <form method="post" action="register.php">
-        <?php if (!$showCodeStep): ?>
-            <label for="email">邮箱</label>
-            <input id="email" type="email" name="email" required
-                   value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
-            <label for="password">密码（至少 8 位，含字母和数字）</label>
-            <input id="password" type="password" name="password" required>
-            <input type="hidden" name="action" value="send_code">
-            <div class="row">
-                <button type="submit" class="primary">发送验证码</button>
-            </div>
-        <?php else: ?>
-            <label for="code">验证码</label>
-            <input id="code" type="text" name="code" required maxlength="4" pattern="[0-9]{4}" placeholder="4 位数字"
-                   autocomplete="one-time-code">
-            <input type="hidden" name="action" value="register">
-            <div class="row">
-                <button type="submit" class="primary">注册</button>
-            </div>
+        <?php if ($message !== ''): ?>
+            <p class="msg <?= $isError ? 'error' : 'success' ?>"><?= htmlspecialchars($message) ?></p>
         <?php endif; ?>
-    </form>
 
-    <p class="row"><a href="login.php">已有账号？去登录</a></p>
+        <form method="post" action="register.php">
+            <?php if (!$showCodeStep): ?>
+                <div class="form-group">
+                    <label for="email">邮箱</label>
+                    <input id="email" type="email" name="email" required
+                           value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"
+                           placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="password">密码（至少 8 位，含字母和数字）</label>
+                    <div class="password-wrap">
+                        <input id="password" type="password" name="password" required placeholder="请设置密码">
+                        <button type="button" class="pwd-toggle" aria-label="显示密码">显示</button>
+                    </div>
+                </div>
+                <input type="hidden" name="action" value="send_code">
+                <div class="row">
+                    <button type="submit" class="btn btn-primary">发送验证码</button>
+                </div>
+            <?php else: ?>
+                <div class="form-group">
+                    <label for="code">验证码</label>
+                    <input id="code" type="text" name="code" required maxlength="4" pattern="[0-9]{4}"
+                           placeholder="4 位数字" autocomplete="one-time-code">
+                </div>
+                <input type="hidden" name="action" value="register">
+                <div class="row">
+                    <button type="submit" class="btn btn-primary">完成注册</button>
+                </div>
+            <?php endif; ?>
+        </form>
+
+        <div class="auth-links">
+            <a href="login.php">已有账号？去登录</a>
+        </div>
+    </div>
+    <script src="assets/js/auth.js"></script>
 </body>
 </html>
