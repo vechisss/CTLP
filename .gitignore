@@ -21,3 +21,21 @@ rad.json
 #Test results file
 TestResults.xml
 /vendor/
+
+# --- 环境与敏感配置（勿提交）---
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# --- PHP / Composer ---
+composer.phar
+# 若希望锁版本可提交 composer.lock，则不要忽略它；默认不忽略 composer.lock
+
+# --- 系统与编辑器 ---
+.DS_Store
+Thumbs.db
+*.log
+*.swp
+*.swo
+*~

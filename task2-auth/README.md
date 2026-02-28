@@ -48,7 +48,8 @@ task2-auth/
 │   └── email/              # 邮件 HTML 模板
 ├── database/
 │   └── schema.sql          # 用户表结构
-├── .env                    # 环境配置（勿提交）
+├── .env                    # 本地环境配置（由 .env.example 复制而来，已加入 .gitignore，勿提交）
+├── .env.example            # 环境变量模板（可提交），复制为 .env 后填写
 ├── composer.json
 └── README.md
 ```
@@ -65,24 +66,17 @@ composer install
 
 ### 2. 环境配置
 
-在项目根目录创建 `.env`（可复制 `.env.example` 若存在），至少配置：
+**程序只读取 `task2-auth/.env` 文件，不会读 `.env.example`。** 克隆项目后请：
 
-```env
-# 数据库
-DB_HOST=127.0.0.1
-DB_NAME=ctlp
-DB_USER=root
-DB_PASS=your_password
+1. 在 `task2-auth/` 下将 `.env.example` 复制为 `.env`：
+   ```bash
+   cd task2-auth
+   cp .env.example .env   # Linux/macOS
+   # 或 copy .env.example .env   # Windows CMD
+   ```
+2. 编辑 `.env`，填入真实的数据库与 SMTP 等信息。
 
-# 邮件（注册验证码、找回密码）
-SMTP_HOST=smtp.example.com
-SMTP_PORT=587
-SMTP_SECURE=tls
-SMTP_USER=
-SMTP_PASS=
-SMTP_FROM=noreply@example.com
-SMTP_FROM_NAME=CTLP
-```
+不要直接在 `.env.example` 里填写真实密码并提交——`.env.example` 会被提交到仓库，仅作模板；`.env` 已被 `.gitignore` 忽略，用于本地敏感配置。
 
 ### 3. 数据库
 
@@ -104,14 +98,16 @@ mysql -u root -p ctlp < database/schema.sql
 
 ## 安全实现摘要
 
-| 项 | 实现方式 |
-|----|----------|
+
+| 项        | 实现方式                                                                                                                                                                     |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **会话安全** | `public/bootstrap.php` 在任意输出前调用 `session_set_cookie_params()`：`httponly => true`、`secure`（HTTPS 时）、`samesite => Lax`，再 `session_start()`。所有入口统一 `require bootstrap.php`。 |
-| **CSRF** | `Vechisss\Ctlp\Utils\Csrf`：生成/存储 Token，表单内 `Csrf::field()` 输出隐藏域，POST 时 `Csrf::validate()` 校验。登录、注册、找回密码、重置密码表单均已接入。 |
-| **密码** | `password_hash(..., PASSWORD_DEFAULT)`（BCrypt）/ `password_verify()`，无明文存储。 |
-| **SQL** | 全量 PDO 预处理，无拼接；`Connection` 中 `PDO::ATTR_EMULATE_PREPARES => false`。 |
-| **输入** | 邮箱 `filter_var(..., FILTER_VALIDATE_EMAIL)`，`Validator::cleanString()` 清理；密码强度校验。 |
-| **XSS** | 页面与邮件模板中动态输出均使用 `htmlspecialchars(..., ENT_QUOTES, 'UTF-8')`。 |
+| **CSRF** | `Vechisss\Ctlp\Utils\Csrf`：生成/存储 Token，表单内 `Csrf::field()` 输出隐藏域，POST 时 `Csrf::validate()` 校验。登录、注册、找回密码、重置密码表单均已接入。                                                     |
+| **密码**   | `password_hash(..., PASSWORD_DEFAULT)`（BCrypt）/ `password_verify()`，无明文存储。                                                                                               |
+| **SQL**  | 全量 PDO 预处理，无拼接；`Connection` 中 `PDO::ATTR_EMULATE_PREPARES => false`。                                                                                                     |
+| **输入**   | 邮箱 `filter_var(..., FILTER_VALIDATE_EMAIL)`，`Validator::cleanString()` 清理；密码强度校验。                                                                                        |
+| **XSS**  | 页面与邮件模板中动态输出均使用 `htmlspecialchars(..., ENT_QUOTES, 'UTF-8')`。                                                                                                            |
+
 
 ---
 
