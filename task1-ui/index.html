@@ -44,10 +44,14 @@
       <div class="hero__fade" aria-hidden="true"></div>
       <div class="hero__overlay"></div>
       <div class="hero__inner">
-        <p class="hero__badge">卒業後サポートが<span class="hero__badge-em">一生</span>続く！</p>
+        <p class="hero__badge">
+          <span class="hero__badge-prefix">卒業後サポートが</span>
+          <span class="hero__badge-em">一生</span>
+          <span class="hero__badge-suffix">続く！</span>
+        </p>
         <p class="hero__subcopy">未経験から最短で</p>
         <h1 class="hero__title" id="hero-title">
-          <span class="hero__title-lg">即戦力</span>の<br>
+          <span class="hero__title-lg">即戦力</span><span class="hero__title-no">の</span><br>
           Webデザイナーに
         </h1>
         <ul class="hero__feature-list">
@@ -144,14 +148,23 @@
 
     <section class="reasons section section--light" id="reasons" aria-labelledby="reasons-title">
       <div class="section__heading section__heading--compact">
-        <h2 class="section__title" id="reasons-title">ChapterTwoが選ばれる<br><span>3つの理由</span></h2>
+        <h2 class="section__title" id="reasons-title">
+          <span class="reasons-title__line">ChapterTwoが選ばれる</span>
+          <span class="reasons-title__line reasons-title__line--accent">
+            <span class="reasons-title__num">3</span>
+            <span class="reasons-title__text">つの理由</span>
+          </span>
+        </h2>
       </div>
       <div class="reasons__list">
         <article class="reason-card">
           <div class="reason-card__media">
             <img src="assets/images/reason-support-figma.png" alt="提携サービスのイメージ">
           </div>
-          <div class="reason-card__badge"><span>01</span>Support</div>
+          <div class="reason-card__badge">
+            <span class="reason-card__badge-num">01</span>
+            <span class="reason-card__badge-en">Support</span>
+          </div>
           <div class="reason-card__body">
             <h3 class="reason-card__title">Web制作サービス<br/>「びるどる」と提携し<br>卒業後の活動をサポート</h3>
             <p class="reason-card__text">ChapterTwoは、Web制作サービス<br/>「びるどる」と提携しています。<br/>卒業後はびるどるの「認定パートナー」として、<br/>Webデザイン案件を優先的に<br/>紹介してもらうことが可能です。</p>
@@ -162,7 +175,10 @@
           <div class="reason-card__media">
             <img src="assets/images/reason-curriculum-figma.png" alt="カリキュラム学習のイメージ">
           </div>
-          <div class="reason-card__badge"><span>02</span>Curriculum</div>
+          <div class="reason-card__badge">
+            <span class="reason-card__badge-num">02</span>
+            <span class="reason-card__badge-en">Curriculum</span>
+          </div>
           <div class="reason-card__body">
             <h3 class="reason-card__title">案件をもとにしたカリキュラムで<br>実践的スキルを身に着けて<br/>すぐに副業開始可能</h3>
             <p class="reason-card__text">提携サービス「びるどる」が過去実際に受注した<br/>案件をもとにカリキュラムを作成しており、<br/>他のスクールではできない超実践的なスキル<br/>習得が可能です。そのため、卒業後はすぐに<br/>「びるどる」の案件を受けることができます。</p>
@@ -173,7 +189,10 @@
           <div class="reason-card__media">
             <img src="assets/images/reason-mentor.jpg" alt="専属メンターのイメージ">
           </div>
-          <div class="reason-card__badge"><span>03</span>Mentor</div>
+          <div class="reason-card__badge">
+            <span class="reason-card__badge-num">03</span>
+            <span class="reason-card__badge-en">Mentor</span>
+          </div>
           <div class="reason-card__body">
             <h3 class="reason-card__title">専属メンターが入学から稼げるまで伴走し<br>挫折させない万全のサポート</h3>
             <p class="reason-card__text">入学してから稼げるようになるまで、<br>専属メンターがマンツーマンで伴走。<br>挫折せずに最後まで学習できるよう、<br>全力でサポートいたします。</p>
@@ -286,12 +305,17 @@
       <h2 class="section__title section__title--solo" id="pricing-title">コース・料金</h2>
       <div class="pricing__monthly">
         <span class="pricing__monthly-label">月額料金</span>
-        <p class="pricing__monthly-value">10,600円<span>（税込）〜</span></p>
+        <p class="pricing__monthly-value">
+          <span class="pricing__monthly-main">
+            <span class="pricing__monthly-digits">10,600</span><span class="pricing__monthly-unit">円</span>
+          </span>
+          <span class="pricing__monthly-tax">（税込）</span><span class="pricing__monthly-wave">〜</span>
+        </p>
       </div>
       <p class="pricing__note">※分割払いの料金について、詳しくはお問い合わせください。</p>
       <div class="pricing__plans">
         <article class="plan-card">
-          <p class="plan-card__en">Basic</p>
+          <p class="plan-card__en plan-card__en_1">Basic</p>
           <h3 class="plan-card__title">デザイン基礎コース</h3>
           <ul class="plan-card__list">
             <li><img src="assets/images/icon-book.svg" alt="">学習期間：1ヶ月半</li>
@@ -299,7 +323,7 @@
           </ul>
         </article>
         <article class="plan-card">
-          <p class="plan-card__en">Advanced</p>
+          <p class="plan-card__en plan-card__en_2">Advanced</p>
           <h3 class="plan-card__title">デザイン応用コース</h3>
           <ul class="plan-card__list">
             <li><img src="assets/images/icon-book.svg" alt="">学習期間：3ヶ月</li>
@@ -307,7 +331,7 @@
           </ul>
         </article>
         <article class="plan-card">
-          <p class="plan-card__en">Pro</p>
+          <p class="plan-card__en plan-card__en_3">Pro</p>
           <h3 class="plan-card__title">デザインプロコース</h3>
           <ul class="plan-card__list">
             <li><img src="assets/images/icon-book.svg" alt="">学習期間：6ヶ月</li>
@@ -324,7 +348,7 @@
           <span class="roadmap-item__num">01</span>
           <div class="roadmap-item__icon"><img src="assets/images/timeline-icon-01.svg" alt=""></div>
           <h3 class="roadmap-item__title">カウンセラー面談</h3>
-          <p class="roadmap-item__text">一人ひとりに合わせて、最適な学習プランとロードマップを組み立てていき<br/>ます。</p>
+          <p class="roadmap-item__text">一人ひとりに合わせて、最適な学習プランとロードマップを<br/>組み立てていきます。</p>
         </li>
         <li class="roadmap-item">
           <span class="roadmap-item__num">02</span>
@@ -392,7 +416,7 @@
           <span class="flow-card__step">1</span>
           <img class="flow-card__icon" src="assets/images/flow-01.svg" alt="">
           <h3 class="flow-card__title">無料カウンセリングに参加</h3>
-          <p class="flow-card__text">無料カウンセリングに参加！こちらから日程調整可能です！</p>
+          <p class="flow-card__text">無料カウンセリングに参加！<br/><span class="flow-card__text-link">こちら</span>から日程調整可能です！</p>
         </li>
         <li class="flow-card">
           <span class="flow-card__step">2</span>
