@@ -87,7 +87,7 @@ main {
 }
 
 .section--light {
-  background: #ffffff;
+  background: #F8F8F8;
 }
 
 .section--dark {
@@ -119,6 +119,15 @@ main {
   line-height: 1.2;
   letter-spacing: 0.05em;
   text-align: center;
+  color: var(--, #333);
+
+  /* PC見出し1 */
+  font-family: "Noto Sans JP";
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 1.8px;
 }
 
 .section__title span {
@@ -159,6 +168,12 @@ main {
   padding: 22px 40px;
   color: var(--color-white);
   background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-2) 100%);
+  color: var(--, #FFF);
+  font-family: "Noto Sans JP";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }
 
 .lp-button--header {
@@ -323,13 +338,19 @@ main {
 
 .hero__badge {
   position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
   margin: 0;
-  padding: 6px 18px 8px;
+  padding: 6px 20px 8px;
   border-radius: 999px;
   font-size: 22px;
   font-weight: 700;
+  line-height: 1;
   color: var(--color-white);
   background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-2) 100%);
+  overflow: visible;
 }
 
 .hero__badge::after {
@@ -345,31 +366,40 @@ main {
   transform: translateX(-50%);
 }
 
+.hero__badge-prefix,
+.hero__badge-suffix {
+  display: inline-block;
+  position: relative;
+  top: 0.56em;
+  line-height: 1.2;
+}
+
 .hero__badge-em {
   position: relative;
   display: inline-block;
-  margin-left: 4px;
-  font-size: 1.68em;
+  margin: 0 0.02em;
+  font-size: 1.72em;
   line-height: 1;
+  transform: none;
 }
 
 .hero__badge-em::before,
 .hero__badge-em::after {
   content: "";
   position: absolute;
-  top: -20px;
-  width: 6px;
-  height: 6px;
+  top: -0.72em;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background: var(--color-primary);
 }
 
 .hero__badge-em::before {
-  left: 0.1em;
+  left: 0.08em;
 }
 
 .hero__badge-em::after {
-  left: 1.42em;
+  left: 1.1em;
 }
 
 .hero__subcopy {
@@ -399,6 +429,10 @@ main {
   line-height: 1.12;
   letter-spacing: 0.02em;
   color: var(--color-primary);
+  background: var(--FV, linear-gradient(90deg, #BF5331 0%, #EF6A5A 100%));
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
 }
 
 .hero__title-lg {
@@ -483,7 +517,7 @@ main {
 }
 
 .course-intro__copy p {
-  margin: 0;
+  margin: 6px;
   font-size: 34px;
   font-weight: 700;
   line-height: 1.2;
@@ -653,7 +687,7 @@ main {
   display: flex;
   justify-content: center;
   gap: 40px;
-  margin-bottom: 28px;
+  margin-bottom: 55px;
 }
 
 .consult--guide .consult__bubble {
@@ -673,6 +707,14 @@ main {
   text-align: center;
   color: var(--color-text);
   background: var(--color-white);
+  color: var(--, #333);
+  text-align: center;
+  font-family: "Noto Sans JP";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 180%; /* 28.8px */
+  letter-spacing: 0.8px;
 }
 
 .consult__bubble::before,
@@ -727,6 +769,16 @@ main {
   font-style: normal;
   font-weight: 700;
   letter-spacing: 0.05em;
+  color: var(--, #FFF);
+  text-align: center;
+
+  /* PC見出し1 */
+  font-family: "Noto Sans JP";
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 1.8px;
 }
 
 .consult--guide .consult__title::before {
@@ -767,6 +819,13 @@ main {
   font-weight: 700;
   letter-spacing: 0.05em;
   color: var(--color-white);
+  color: var(--, #FFF);
+font-family: "Noto Sans JP";
+font-size: 16px;
+font-style: normal;
+font-weight: 700;
+line-height: 180%; /* 28.8px */
+letter-spacing: 0.8px;
 }
 
 .consult__label {
@@ -777,6 +836,12 @@ main {
   font-size: 15px;
   font-weight: 500;
   background: linear-gradient(34deg, var(--color-gold-1) 3%, var(--color-gold-2) 52%, var(--color-gold-1) 96%);
+  color: var(--, #333);
+  font-family: "Noto Sans JP";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 }
 
 .reasons {
@@ -792,6 +857,44 @@ main {
   flex-direction: column;
   align-items: center;
   line-height: 1.05;
+}
+
+.reasons #reasons-title .reasons-title__line {
+  display: block;
+  color: var(--, #333);
+  text-align: center;
+  font-family: "Noto Sans JP";
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 1.8px;
+}
+
+.reasons #reasons-title .reasons-title__line--accent {
+  display: inline-flex;
+  align-items: flex-end;
+}
+
+.reasons #reasons-title .reasons-title__num {
+  color: var(--, #333);
+  font-family: "Noto Sans JP";
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%;
+  letter-spacing: 3.2px;
+}
+
+.reasons #reasons-title .reasons-title__text {
+  color: var(--, #333);
+  font-family: "Noto Sans JP";
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 2.4px;
+  margin-bottom:-9px;
 }
 
 .reasons #reasons-title::after {
@@ -853,21 +956,24 @@ main {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  font-family: "Advent Pro", sans-serif;
-  font-size: 63px;
-  font-weight: 500;
-  line-height: 0.82;
-  font-style: normal;
-  letter-spacing: 0.01em;
-  color: transparent;
-  background-image: linear-gradient(90deg, rgba(191, 83, 49, 0.66) 0%, rgba(239, 106, 90, 0.66) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
   transform: none;
 }
 
-.reason-card__badge span {
+.reason-card__badge-num,
+.reason-card__badge-en {
   display: block;
+  margin: 0;
+  font-family: "Advent Pro", sans-serif;
+  font-size: 63px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 46.723px;
+  letter-spacing: 0.01em;
+  background: linear-gradient(90deg, rgba(191, 83, 49, 0.65) 0%, rgba(239, 106, 90, 0.65) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .reason-card__body {
@@ -886,28 +992,45 @@ main {
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: 0.05em;
+  color: var(--, #333);
+
+/* PC見出し2 */
+font-family: "Noto Sans JP";
+font-size: 24px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+letter-spacing: 1.2px;
 }
 
 .reason-card__text {
   margin: 0;
-  font-size: 15px;
   line-height: 1.8;
   letter-spacing: 0.05em;
+  color: var(--, #333);
+
+/* 文章 */
+font-family: "Noto Sans JP";
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 150%; /* 24px */
+letter-spacing: 0.48px;
 }
 
 .reason-card--reverse .reason-card__media {
   left: auto;
-  right: -24px;
+  right: -37px;
 }
 
 .reason-card--reverse .reason-card__body {
-  right: 204px;
+  right: 227px;
   left: 24px;
 }
 
 .reason-card--reverse .reason-card__badge {
   left: auto;
-  right: -32px;
+  right: -37px;
   align-items: flex-end;
   text-align: right;
 }
@@ -984,31 +1107,36 @@ main {
 
 .support-card__image {
   margin: 0 0 20px;
+  overflow: hidden;
 }
 
 .support-card__image img {
+  display: block;
   width: 100%;
   height: 224px;
   object-fit: cover;
 }
 
+.support-card:nth-child(1) .support-card__image img {
+  transform: scale(1.8);
+  transform-origin: 62% 100%;
+}
+
 .support-card__number {
   position: absolute;
-  top: 0;
-  left: 0;
-  padding: 2px 10px;
+  top: -1px;
+  left: -1px;
+  padding: 1px 11px 4px 5px;
   border: 0;
   border-bottom-right-radius: 22px;
   background: #d55d43;
   box-shadow: 0 0 0 1px #d55d43;
-
-  
-  color: #ffffff;
-  font-family: var(--font-sans);
+  color: #FFFFFF;
+  font-family: "Noto Sans JP";
   font-size: 41.916px;
   font-style: normal;
   font-weight: 700;
-  line-height: 41.033px; /* 97.895% */
+  line-height: 41px;
 }
 
 .support-card__title {
@@ -1020,6 +1148,15 @@ main {
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: 0.05em;
+  color: var(--, #FFF);
+
+  /* 見出し2 */
+  font-family: "Noto Sans JP";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 1.2px;
 }
 
 .support-card__text {
@@ -1030,6 +1167,15 @@ main {
   font-weight: 400;
   line-height: 1.5;
   letter-spacing: 0.03em;
+  color: var(--, #FFF);
+
+  /* 文章 */
+  font-family: "Noto Sans JP";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 24px */
+  letter-spacing: 0.48px;
 }
 
 .instructors__track {
@@ -1137,6 +1283,13 @@ main {
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.05em;
+  color: var(--, #333);
+  font-family: "Noto Sans JP";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%; /* 19.2px */
+  letter-spacing: 0.8px;
 }
 
 .instructor-card__body ul {
@@ -1144,6 +1297,8 @@ main {
 }
 
 .instructor-card__body li {
+  position: relative;
+  padding-left: 20px;
   color: var(--color-text);
   font-family: var(--font-sans);
   font-size: 16px;
@@ -1151,6 +1306,13 @@ main {
   font-weight: 400;
   line-height: 1.4;
   letter-spacing: 0.05em;
+  color: var(--, #333);
+font-family: "Noto Sans JP";
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 140%; /* 22.4px */
+letter-spacing: 0.8px;
 }
 
 .instructor-card__body li:last-child {
@@ -1160,11 +1322,13 @@ main {
 .instructor-card__body li::before {
   content: "";
   position: absolute;
-  top: 0.55em;
-  left: 4px;
+  top: 0.58em;
+  left: 0;
+  display: block;
   width: 10px;
   height: 10px;
   background: var(--color-text);
+  transform: translateY(-50%);
 }
 
 .instructor-card__body p {
@@ -1172,6 +1336,13 @@ main {
   font-size: 16px;
   line-height: 1.4;
   letter-spacing: 0.05em;
+  color: var(--, #333);
+  font-family: "Noto Sans JP";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 22.4px */
+  letter-spacing: 0.8px;
 }
 
 .instructors__dots {
@@ -1213,36 +1384,117 @@ main {
   align-items: center;
   justify-content: center;
   min-height: 49px;
-  padding: 10px 30px;
+  padding: 10px 18px;
   border-radius: 5px;
+  font-family: var(--font-sans);
   font-size: 24px;
+  font-style: normal;
   font-weight: 700;
+  line-height: normal;
+  letter-spacing: 1.2px;
   color: var(--color-white);
   background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-2) 100%);
 }
 
 .pricing__monthly-value {
   margin: 0;
-  font-size: 64px;
+  display: inline-flex;
+  align-items: flex-end;
+  font-family: var(--font-sans);
+  font-style: normal;
   font-weight: 700;
-  line-height: 1.1;
+  line-height: normal;
+  letter-spacing: 0;
   color: var(--color-primary);
+  white-space: nowrap;
 }
 
-.pricing__monthly-value span {
-  font-size: 0.56em;
+.pricing__monthly-main {
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.pricing__monthly-digits {
+  font-family: "Segoe UI", var(--font-sans);
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  font-family: "Segoe UI";
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+    background: var(--FV, linear-gradient(90deg, #BF5331 0%, #EF6A5A 100%));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.pricing__monthly-unit {
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  background: var(--FV, linear-gradient(90deg, #BF5331 0%, #EF6A5A 100%));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: "Noto Sans JP";
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.pricing__monthly-tax {
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  font-family: "Noto Sans JP";
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  background: var(--FV, linear-gradient(90deg, #BF5331 0%, #EF6A5A 100%));
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+.pricing__monthly-wave {
+    margin-left: -15px;
+    font-family: var(--font-sans);
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    font-family: "Noto Sans JP";
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    background: var(--FV, linear-gradient(90deg, #BF5331 0%, #EF6A5A 100%));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .pricing__note {
   margin: 15px 0 40px;
-  font-size: 15px;
+  color: #36393e;
   text-align: center;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 .pricing__plans {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 30px;
+  gap: 22px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -1251,28 +1503,76 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  align-items: center;
   height: 283px;
-  padding: 30px 24px;
-  border-right: 4px solid var(--color-primary);
-  border-bottom: 4px solid var(--color-primary);
+  padding: 40px;
+  border-right: 4px solid currentColor;
+  border-bottom: 4px solid currentColor;
   background: #fff;
-  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.15);
+}
+
+.plan-card:nth-child(1) {
+  color: #ef6a5a;
+  box-shadow: 5px 5px 0 #ef6a5a;
+}
+
+.plan-card:nth-child(2) {
+  color: #d85f46;
+  box-shadow: 5px 5px 0 #d85f46;
+}
+
+.plan-card:nth-child(3) {
+  color: #bf5331;
+  box-shadow: 5px 5px 0 #bf5331;
 }
 
 .plan-card__en {
-  margin: 0 0 8px;
-  font-size: 24px;
+  margin: 0 0 10px;
   text-align: center;
-  color: var(--color-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.8px;
+}
+
+.plan-card__en_1 {
+  color: #EF6A5A;
+}
+
+.plan-card__en_2 {
+  color: #D85F46;
+}
+
+.plan-card__en_3 {
+  color: #BF5331;
 }
 
 .plan-card__title {
-  margin: 0 0 22px;
-  font-size: 32px;
-  font-weight: 700;
-  line-height: 1.2;
+  margin: 0;
+  color: currentColor;
   text-align: center;
-  color: var(--color-primary);
+  font-family: var(--font-sans);
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 1.6px;
+}
+
+.plan-card__title::after {
+  content: "";
+  display: block;
+  width: 185px;
+  height: 1px;
+  margin: 22px auto 0;
+  background: #bdbdbd;
+}
+
+.plan-card__list {
+  width: 271px;
+  margin-top: 30px;
 }
 
 .plan-card__list li {
@@ -1280,7 +1580,12 @@ main {
   align-items: center;
   gap: 8px;
   margin-bottom: 10px;
+  color: var(--color-text);
+  font-family: var(--font-sans);
   font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 .plan-card__list li:last-child {
@@ -1314,6 +1619,14 @@ main {
 
 .roadmap .section__title {
   color: var(--color-white);
+
+/* PC見出し1 */
+font-family: "Noto Sans JP";
+font-size: 36px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+letter-spacing: 1.8px;
 }
 
 .roadmap > * {
@@ -1331,23 +1644,33 @@ main {
 }
 
 .roadmap__list::after {
-  content: "CHAPTER TWO";
-  position: absolute;
-  top: 40%;
-  right: -68%;
-  transform: translateY(-50%) rotate(90deg);
-  font-weight: 700;
-  white-space: nowrap;
-  pointer-events: none;
-  color: rgba(255, 255, 255, 0.20);
-  text-align: center;
-  font-family: Barlow;
-  font-size: 103px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: 1.6px;
-  z-index: -1;
+content: "CHAPTER TWO";
+    content: "CHAPTER TWO";
+    position: absolute;
+    top: 42%;
+    /* height: 33%; */
+    right: -65%;
+    transform: translateY(-50%) rotate(90deg);
+    font-weight: 700;
+    white-space: nowrap;
+    pointer-events: none;
+    color: rgba(255, 255, 255, 0.20);
+    text-align: center;
+    font-family: Barlow;
+    font-size: 103px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 1.6px;
+    z-index: -1;
+    color: rgba(255, 255, 255, 0.20);
+    text-align: center;
+    font-family: Barlow;
+    font-size: 123px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 1.6px;
 }
 
 .roadmap-item {
@@ -1416,6 +1739,13 @@ main {
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: 0.05em;
+  color: var(--, #333);
+font-family: "Noto Sans JP";
+font-size: 20px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+letter-spacing: 1px;
 }
 
 .roadmap-item__text {
@@ -1430,20 +1760,27 @@ main {
   font-weight: 400;
   line-height: 1.2;
   letter-spacing: 0.05em;
+  color: var(--, #333);
+font-family: "Noto Sans JP";
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 120%; /* 19.2px */
+letter-spacing: 0.8px;
 }
 
 .flow__list {
   display: grid;
-  grid-template-columns: repeat(3, 302px);
+  grid-template-columns: repeat(3, 310px);
   justify-content: center;
-  gap: 24px;
+  gap: 20px;
   max-width: 970px;
   margin: 0 auto;
 }
 
 .flow-card {
   position: relative;
-  min-height: 305px;
+  height: 263px;
   padding: 50px 15px 30px;
   border: 4px solid var(--color-primary);
   border-radius: var(--radius-md);
@@ -1453,7 +1790,7 @@ main {
 
 .flow-card__step {
   position: absolute;
-  top: -19px;
+  top: -10%;
   left: 50%;
   display: inline-flex;
   align-items: center;
@@ -1467,28 +1804,98 @@ main {
   color: var(--color-white);
   background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-2) 100%);
   transform: translateX(-50%);
+  color: var(--, #FFF);
+font-family: "Noto Sans JP";
+font-size: 32px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
 }
 
 .flow-card__icon {
+  display: block;
   width: auto;
   height: auto;
-  max-width: 79px;
-  max-height: 78px;
   margin: 0 auto 16px;
+  object-fit: contain;
+}
+
+.flow-card:nth-child(1) .flow-card__icon {
+    width: 61.44px;
+    height: 78px;
+    margin-top: -6.57px;
+    margin-bottom: 11px;
+}
+
+.flow-card:nth-child(2) .flow-card__icon {
+    width: 64px;
+    height: 60.57px;
+    margin-top: 5.43px;
+    margin-bottom: 16px;
+}
+
+.flow-card:nth-child(3) .flow-card__icon {
+    width: 79px;
+    height: 47.11px;
+    margin-top: 14.89px;
+    margin-bottom: 20px;
 }
 
 .flow-card__title {
   margin: 0 0 10px;
+  color: var(--color-text);
+  font-family: var(--font-sans);
   font-size: 20px;
+  font-style: normal;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  line-height: normal;
+  letter-spacing: 0;
+}
+
+.flow-card:nth-child(1) .flow-card__title,
+.flow-card:nth-child(3) .flow-card__title {
+  letter-spacing: 1px;
+}
+
+.flow-card:nth-child(2) .flow-card__title {
+  letter-spacing: 0;
 }
 
 .flow-card__text {
   margin: 0;
+  color: var(--color-text);
+  text-align: center;
+  font-family: var(--font-sans);
   font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.flow-card:nth-child(1) .flow-card__text,
+.flow-card:nth-child(3) .flow-card__text {
   line-height: 1.8;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.8px;
+}
+
+.flow-card:nth-child(2) .flow-card__text {
+  line-height: 1.5;
+  letter-spacing: 0.48px;
+}
+
+.flow-card__text-link {
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: auto;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
 }
 
 .faq__list {
@@ -1515,6 +1922,13 @@ main {
   border-radius: 77px;
   font-weight: 700;
   background: #e7e7e7;
+  color: var(--, #333);
+  font-family: "Noto Sans JP";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.8px;
 }
 
 .faq-item__a {
@@ -1522,6 +1936,14 @@ main {
   margin-top: 10px;
   padding: 4px 15px;
   font-weight: 400;
+  color: var(--, #333);
+  /* PC本文 */
+  font-family: "Noto Sans JP";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 180%; /* 28.8px */
+  letter-spacing: 0.8px;
 }
 
 .faq-item__q span,
@@ -1562,12 +1984,23 @@ main {
 }
 
 .site-footer__links a {
+  color: var(--, #FFF);
+  font-family: "Noto Sans JP";
   font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 .site-footer__copy {
   margin: 0;
   font-size: 20px;
+  color: var(--, #FFF);
+font-family: "Noto Sans JP";
+font-size: 20px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
 }
 
 .floating-cta {
@@ -1724,15 +2157,15 @@ main {
     width: min(302px, calc(100% - 24px));
     min-height: 526px;
     justify-content: flex-start;
-    gap: 6px;
+    gap: 8px;
     padding-top: 50px;
     background: transparent;
   }
 
   .hero__badge {
-    padding: 4px 12px 6px;
+    padding: 4px 14px 7px;
     font-size: 17.36px;
-    line-height: 1.2;
+    line-height: 1;
   }
 
   .hero__badge::after {
@@ -1742,23 +2175,30 @@ main {
     border-top-width: 10px;
   }
 
+  .hero__badge-prefix,
+  .hero__badge-suffix {
+    top: 0.58em;
+    line-height: 1.2;
+  }
+
   .hero__badge-em {
-    margin-left: 2px;
-    font-size: 1.7em;
+    margin: 0 0.02em;
+    font-size: 1.72em;
+    transform: none;
   }
 
   .hero__badge-em::before,
   .hero__badge-em::after {
-    top: -14px;
-    width: 5px;
-    height: 5px;
+    top: -0.68em;
+    width: 7px;
+    height: 7px;
   }
 
   .hero__subcopy {
-    margin-top: 6px;
+    margin-top: 10px;
     padding-left: 14px;
     font-size: 24.3px;
-    line-height: 1.1;
+    line-height: 1.2;
   }
 
   .hero__subcopy::before {
@@ -1769,9 +2209,9 @@ main {
   }
 
   .hero__title {
-    margin: 0;
+    margin: 2px 0 0;
     font-size: 34.71px;
-    line-height: 1.45;
+    line-height: 1.52;
     letter-spacing: 0.01em;
     background: linear-gradient(90deg, #bf5331 0%, #ef6a5a 100%);
     -webkit-background-clip: text;
@@ -2091,7 +2531,7 @@ main {
 
   .consult--guide .consult__title::before {
     left: 50%;
-    width: 301px;
+    width: 362px;
     transform: translateX(-50%);
   }
 
@@ -2106,6 +2546,21 @@ main {
   .reasons #reasons-title::after {
     height: 35px;
     margin-top: 20px;
+  }
+
+  .reasons #reasons-title .reasons-title__line {
+    font-size: 30px;
+    letter-spacing: 1.5px;
+  }
+
+  .reasons #reasons-title .reasons-title__num {
+    font-size: 48px;
+    letter-spacing: 2.4px;
+  }
+
+  .reasons #reasons-title .reasons-title__text {
+    font-size: 40px;
+    letter-spacing: 2px;
   }
 
   .reasons__list {
@@ -2139,8 +2594,12 @@ main {
     order: 1;
     margin: 0;
     align-items: flex-start;
+  }
+
+  .reason-card__badge-num,
+  .reason-card__badge-en {
     font-size: 52.09px;
-    line-height: 0.82;
+    line-height: 42.7px;
   }
 
   .reason-card--reverse .reason-card__badge {
@@ -2249,8 +2708,8 @@ main {
 
   .support-card:nth-child(1) .support-card__image {
     background-image: url("assets/images/mm8znmqo-7r9lq50.png");
-            background-size: 193% auto;
-        background-position: 56% 80%;
+    background-size: 179.43% auto;
+    background-position: 62% 100%;
   }
 
   .support-card:nth-child(2) .support-card__image {
@@ -2277,7 +2736,7 @@ main {
     font-size: 41.916px;
     font-style: normal;
     font-weight: 700;
-    line-height: 41.033px; /* 97.895% */
+    line-height: 41px;
   }
 
   .support-card__title {
@@ -2375,13 +2834,22 @@ main {
 
   .pricing__monthly-value {
     white-space: nowrap;
-    font-size: 32px;
-    line-height: 1;
-    letter-spacing: 0.01em;
+    align-items: baseline;
   }
 
-  .pricing__monthly-value span {
+  .pricing__monthly-digits,
+  .pricing__monthly-unit {
+    font-size: 32px;
+  }
+
+  .pricing__monthly-tax {
+    margin-left: 4px;
     font-size: 18px;
+  }
+
+  .pricing__monthly-wave {
+    margin-left: 2px;
+    font-size: 32px;
   }
 
   .pricing__note {
@@ -2512,7 +2980,8 @@ main {
   }
 
   .flow-card {
-    min-height: 244px;
+    height: auto;
+    min-height: 242px;
     padding: 50px 15px 30px;
     border-width: 4px;
     border-radius: 10px;
@@ -2526,9 +2995,30 @@ main {
   }
 
   .flow-card__icon {
-    max-width: 79px;
-    max-height: 79px;
-    margin-bottom: 10px;
+    display: block;
+    width: auto;
+    height: auto;
+    margin: 0 auto 16px;
+    object-fit: contain;
+  }
+
+  .flow-card:nth-child(1) .flow-card__icon {
+    width: 61.44px;
+    height: 78px;
+  }
+
+  .flow-card:nth-child(2) .flow-card__icon {
+    width: 64px;
+    height: 60.57px;
+    margin-top: 0;
+    margin-bottom: 16px;
+  }
+
+  .flow-card:nth-child(3) .flow-card__icon {
+    width: 79px;
+    height: 47.11px;
+    margin-top: 0;
+    margin-bottom: 16px;
   }
 
   .flow-card__title {
@@ -2546,6 +3036,13 @@ main {
     letter-spacing: 0.03em;
   }
 
+  .flow-card:nth-child(1) .flow-card__text,
+  .flow-card:nth-child(2) .flow-card__text,
+  .flow-card:nth-child(3) .flow-card__text {
+    line-height: 1.2;
+    letter-spacing: 0.03em;
+  }
+
   .faq {
     padding-top: 35px;
     padding-bottom: 35px;
@@ -2559,17 +3056,22 @@ main {
 
   .faq-item__q,
   .faq-item__a {
-    align-items: flex-start;
     gap: 10px;
     font-size: 16px;
   }
 
   .faq-item__q {
+    align-items: center;
     min-height: 51px;
-    padding: 4px 15px;
+    padding: 4px 12px;
+    white-space: nowrap;
+    font-size: 15px;
+    line-height: 1.2;
+    letter-spacing: 0;
   }
 
   .faq-item__a {
+    align-items: flex-start;
     min-height: auto;
     margin-top: 10px;
     padding: 4px 15px;
